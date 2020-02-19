@@ -1,5 +1,6 @@
-//Motors are on pins 2,3,4,5
-//IR Sensors on 6,7
+// ARduino Uno R3
+// DC Motors are on pins 2,3,4,5
+// IR Sensors on 6,7
 
 int motorL1 = 5;
 int motorL2 = 4;
