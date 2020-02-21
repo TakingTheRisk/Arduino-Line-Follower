@@ -82,28 +82,28 @@ void left()
 // Main logic of your circuit. It defines the interaction between the components you selected. After setup, it runs over and over again, in an eternal loop.
 void loop() 
 {
-    if(IRLINEFOLLOW_2_PIN_OUT == LOW != IRLINEFOLLOW_3_PIN_OUT != IRLINEFOLLOW_1_PIN_OUT)
+    if(IRLINEFOLLOW_2_PIN_OUT == 1 != IRLINEFOLLOW_3_PIN_OUT != IRLINEFOLLOW_1_PIN_OUT)
     {
      forward();   
-    } else if (IRLINEFOLLOW_2_PIN_OUT == LOW == IRLINEFOLLOW_1_PIN_OUT != IRLINEFOLLOW_3_PIN_OUT)
+    } else if (IRLINEFOLLOW_2_PIN_OUT == 1 == IRLINEFOLLOW_1_PIN_OUT != IRLINEFOLLOW_3_PIN_OUT)
     {
         softRight();   
-    } else if (IRLINEFOLLOW_2_PIN_OUT == LOW == IRLINEFOLLOW_3_PIN_OUT != IRLINEFOLLOW_1_PIN_OUT)
+    } else if (IRLINEFOLLOW_2_PIN_OUT == 1 == IRLINEFOLLOW_3_PIN_OUT != IRLINEFOLLOW_1_PIN_OUT)
     {
         softLeft();   
-    } else if(IRLINEFOLLOW_1_PIN_OUT == LOW != IRLINEFOLLOW_2_PIN_OUT != IRLINEFOLLOW_3_PIN_OUT)
+    } else if(IRLINEFOLLOW_1_PIN_OUT == 1 != IRLINEFOLLOW_2_PIN_OUT != IRLINEFOLLOW_3_PIN_OUT)
     {
         right();   
-    } else if(IRLINEFOLLOW_3_PIN_OUT == LOW != IRLINEFOLLOW_1_PIN_OUT != IRLINEFOLLOW_2_PIN_OUT)
+    } else if(IRLINEFOLLOW_3_PIN_OUT == 1 != IRLINEFOLLOW_1_PIN_OUT != IRLINEFOLLOW_2_PIN_OUT)
     {
         left();   
-    } else if(IRLINEFOLLOW_2_PIN_OUT == IRLINEFOLLOW_2_PIN_OUT == IRLINEFOLLOW_2_PIN_OUT == LOW)
+    } else if(IRLINEFOLLOW_2_PIN_OUT == IRLINEFOLLOW_2_PIN_OUT == IRLINEFOLLOW_2_PIN_OUT == 1)
     {
         
         MotorDrive1.stopMotors();
         MotorDrive2.stopMotors();
         
-    } else if(IRLINEFOLLOW_1_PIN_OUT == IRLINEFOLLOW_2_PIN_OUT == IRLINEFOLLOW_3_PIN_OUT == HIGH)
+    } else if(IRLINEFOLLOW_1_PIN_OUT == IRLINEFOLLOW_2_PIN_OUT == IRLINEFOLLOW_3_PIN_OUT == 0)
     {
     MotorDrive1.setMotorA(255,0);
     MotorDrive1.setMotorB(255,0);
