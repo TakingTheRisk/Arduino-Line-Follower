@@ -2,152 +2,117 @@
 #include "Arduino.h"
 #include "DCMDriverL298.h"
 
-
+#define MotorDrive1 dcMotorDriverL298_1
+#define MotorDrive2 dcMotorDriverL298_2
 // Pin Definitions
-#define DCMOTORDRIVERL298_1_PIN_INT1	6
-#define DCMOTORDRIVERL298_1_PIN_ENB	3
-#define DCMOTORDRIVERL298_1_PIN_INT2	7
-#define DCMOTORDRIVERL298_1_PIN_ENA	2
-#define DCMOTORDRIVERL298_1_PIN_INT3	8
-#define DCMOTORDRIVERL298_1_PIN_INT4	9
-#define DCMOTORDRIVERL298_2_PIN_INT1	10
-#define DCMOTORDRIVERL298_2_PIN_ENB	5
-#define DCMOTORDRIVERL298_2_PIN_INT2	11
-#define DCMOTORDRIVERL298_2_PIN_ENA	4
-#define DCMOTORDRIVERL298_2_PIN_INT3	12
-#define DCMOTORDRIVERL298_2_PIN_INT4	13
-#define IRLINEFOLLOW_1_PIN_OUT	14
-#define IRLINEFOLLOW_2_PIN_OUT	15
-#define IRLINEFOLLOW_3_PIN_OUT	16
+#define M1C1	6
+#define MotorDrive1ENB	3
+#define M1C2	7
+#define MotorDrive1ENA	2
+#define M2C1	8
+#define M2C2	9
+#define M3C1	10
+#define MotorDrive2ENB	5
+#define M3C2	11
+#define MotorDrive2ENA	4
+#define M4C1	12
+#define M4C2	13
+#define IRLINEFOLLOW_1_PIN_OUT	14 // Left
+#define IRLINEFOLLOW_2_PIN_OUT	15 // Mid
+#define IRLINEFOLLOW_3_PIN_OUT	16 // Right
 
+#define MotorDrive1 dcMotorDriverL298_1
+#define MotorDrive2 dcMotorDriverL298_2
 
 
 // Global variables and defines
 
 // object initialization
-DCMDriverL298 dcMotorDriverL298_1(DCMOTORDRIVERL298_1_PIN_ENA,DCMOTORDRIVERL298_1_PIN_INT1,DCMOTORDRIVERL298_1_PIN_INT2,DCMOTORDRIVERL298_1_PIN_ENB,DCMOTORDRIVERL298_1_PIN_INT3,DCMOTORDRIVERL298_1_PIN_INT4);
-DCMDriverL298 dcMotorDriverL298_2(DCMOTORDRIVERL298_2_PIN_ENA,DCMOTORDRIVERL298_2_PIN_INT1,DCMOTORDRIVERL298_2_PIN_INT2,DCMOTORDRIVERL298_2_PIN_ENB,DCMOTORDRIVERL298_2_PIN_INT3,DCMOTORDRIVERL298_2_PIN_INT4);
-
-
-// define vars for testing menu
-const int timeout = 10000;       //define timeout of 10 sec
-char menuOption = 0;
-long time0;
+DCMDriverL298 MotorDrive1(MotorDrive1ENA,M1C1,M1C2,MotorDrive1ENB,M2C1,M2C2);
+DCMDriverL298 MotorDrive2(MotorDrive2ENA,M3C1,M3C2,MotorDrive2ENB,M4C1,M4C2);
 
 // Setup the essentials for your circuit to work. It runs first every time your circuit is powered with electricity.
 void setup() 
-{
-    // Setup Serial which is useful for debugging
-    // Use the Serial Monitor to view printed messages
-    Serial.begin(9600);
-    while (!Serial) ; // wait for serial port to connect. Needed for native USB
-    Serial.println("start");
-    
+{  
     pinMode(IRLINEFOLLOW_1_PIN_OUT, INPUT);
     pinMode(IRLINEFOLLOW_2_PIN_OUT, INPUT);
     pinMode(IRLINEFOLLOW_3_PIN_OUT, INPUT);
-    menuOption = menu();
-    
+}
+
+void left()
+{
+    MotorDrive1.setMotorA(255,1);
+    MotorDrive1.setMotorB(255,1);
+    MotorDrive2.setMotorA(255,0);
+    MotorDrive2.setMotorB(255,0);
+}
+
+void softLeft()
+{
+    MotorDrive1.setMotorA(127,1);
+    MotorDrive1.setMotorB(127,1);
+    MotorDrive2.setMotorA(127,0);
+    MotorDrive2.setMotorB(127,0);
+}
+
+void forward()
+{
+    MotorDrive1.setMotorA(255,1);
+    MotorDrive1.setMotorB(255,1);
+    MotorDrive2.setMotorA(255,1);
+    MotorDrive2.setMotorB(255,1);   
+}
+
+void softRight()
+{
+    MotorDrive1.setMotorA(127,0);
+    MotorDrive1.setMotorB(127,0);
+    MotorDrive2.setMotorA(127,1);
+    MotorDrive2.setMotorB(127,1);
+}
+
+void left()
+{
+    MotorDrive1.setMotorA(255,0);
+    MotorDrive1.setMotorB(255,0);
+    MotorDrive2.setMotorA(255,1);
+    MotorDrive2.setMotorB(255,1);
 }
 
 // Main logic of your circuit. It defines the interaction between the components you selected. After setup, it runs over and over again, in an eternal loop.
 void loop() 
 {
-    
-    
-    if(menuOption == '1') {
-    // L298N Motor Driver with Dual Hobby DC motors #1 - Test Code
-    //Start both motors. note that rotation direction is determined by the motors connection to the driver.
-    //You can change the speed by setting a value between 0-255, and set the direction by changing between 1 and 0.
-    dcMotorDriverL298_1.setMotorA(200,1);
-    dcMotorDriverL298_1.setMotorB(200,0);
-    delay(2000);
-    //Stop both motors
-    dcMotorDriverL298_1.stopMotors();
-    delay(2000);
-
-    }
-    else if(menuOption == '2') {
-    // L298N Motor Driver with Dual Hobby DC motors #2 - Test Code
-    //Start both motors. note that rotation direction is determined by the motors connection to the driver.
-    //You can change the speed by setting a value between 0-255, and set the direction by changing between 1 and 0.
-    dcMotorDriverL298_2.setMotorA(200,1);
-    dcMotorDriverL298_2.setMotorB(200,0);
-    delay(2000);
-    //Stop both motors
-    dcMotorDriverL298_2.stopMotors();
-    delay(2000);
-
-    }
-    else if(menuOption == '3') {
-    // IR Line Track Follower Sensor #1 - Test Code
-    //Read IR Line Follower Sensor. irLineFollow_1Var will be '0' if a black line was detected
-    bool irLineFollow_1Var = digitalRead(IRLINEFOLLOW_1_PIN_OUT);
-    Serial.print(F("LineFollow: ")); Serial.println(irLineFollow_1Var);
-
-    }
-    else if(menuOption == '4') {
-    // IR Line Track Follower Sensor #2 - Test Code
-    //Read IR Line Follower Sensor. irLineFollow_2Var will be '0' if a black line was detected
-    bool irLineFollow_2Var = digitalRead(IRLINEFOLLOW_2_PIN_OUT);
-    Serial.print(F("LineFollow: ")); Serial.println(irLineFollow_2Var);
-
-    }
-    else if(menuOption == '5') {
-    // IR Line Track Follower Sensor #3 - Test Code
-    //Read IR Line Follower Sensor. irLineFollow_3Var will be '0' if a black line was detected
-    bool irLineFollow_3Var = digitalRead(IRLINEFOLLOW_3_PIN_OUT);
-    Serial.print(F("LineFollow: ")); Serial.println(irLineFollow_3Var);
-
-    }
-    
-    if (millis() - time0 > timeout)
+    if(IRLINEFOLLOW_2_PIN_OUT == LOW != IRLINEFOLLOW_3_PIN_OUT != IRLINEFOLLOW_1_PIN_OUT)
     {
-        menuOption = menu();
+     forward();   
+    } else if (IRLINEFOLLOW_2_PIN_OUT == LOW == IRLINEFOLLOW_1_PIN_OUT != IRLINEFOLLOW_3_PIN_OUT)
+    {
+        softRight();   
+    } else if (IRLINEFOLLOW_2_PIN_OUT == LOW == IRLINEFOLLOW_3_PIN_OUT != IRLINEFOLLOW_1_PIN_OUT)
+    {
+        softLeft();   
+    } else if(IRLINEFOLLOW_1_PIN_OUT == LOW != IRLINEFOLLOW_2_PIN_OUT != IRLINEFOLLOW_3_PIN_OUT)
+    {
+        right();   
+    } else if(IRLINEFOLLOW_3_PIN_OUT == LOW != IRLINEFOLLOW_1_PIN_OUT != IRLINEFOLLOW_2_PIN_OUT)
+    {
+        left();   
+    } else if(IRLINEFOLLOW_2_PIN_OUT == IRLINEFOLLOW_2_PIN_OUT == IRLINEFOLLOW_2_PIN_OUT == LOW)
+    {
+        
+        MotorDrive1.stopMotors();
+        MotorDrive2.stopMotors();
+        
+    } else if(IRLINEFOLLOW_1_PIN_OUT == IRLINEFOLLOW_2_PIN_OUT == IRLINEFOLLOW_3_PIN_OUT == HIGH)
+    {
+    MotorDrive1.setMotorA(255,0);
+    MotorDrive1.setMotorB(255,0);
+    MotorDrive2.setMotorA(255,0);
+    MotorDrive2.setMotorB(255,0); 
     }
     
-}
 
 
-
-// Menu function for selecting the components to be tested
-// Follow serial monitor for instrcutions
-char menu()
-{
-
-    Serial.println(F("\nWhich component would you like to test?"));
-    Serial.println(F("(1) L298N Motor Driver with Dual Hobby DC motors #1"));
-    Serial.println(F("(2) L298N Motor Driver with Dual Hobby DC motors #2"));
-    Serial.println(F("(3) IR Line Track Follower Sensor #1"));
-    Serial.println(F("(4) IR Line Track Follower Sensor #2"));
-    Serial.println(F("(5) IR Line Track Follower Sensor #3"));
-    Serial.println(F("(menu) send anything else or press on board reset button\n"));
-    while (!Serial.available());
-
-    // Read data from serial monitor if received
-    while (Serial.available()) 
-    {
-        char c = Serial.read();
-        if (isAlphaNumeric(c)) 
-        {   
-            
-            if(c == '1') 
-    			Serial.println(F("Now Testing L298N Motor Driver with Dual Hobby DC motors #1"));
-    		else if(c == '2') 
-    			Serial.println(F("Now Testing L298N Motor Driver with Dual Hobby DC motors #2"));
-    		else if(c == '3') 
-    			Serial.println(F("Now Testing IR Line Track Follower Sensor #1"));
-    		else if(c == '4') 
-    			Serial.println(F("Now Testing IR Line Track Follower Sensor #2"));
-    		else if(c == '5') 
-    			Serial.println(F("Now Testing IR Line Track Follower Sensor #3"));
-            else
-            {
-                Serial.println(F("illegal input!"));
-                return 0;
-            }
-            time0 = millis();
-            return c;
-        }
-    }
+    
+    
 }
